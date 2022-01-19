@@ -1,21 +1,24 @@
 
-const cars = [
-    {make:"mercedes", model:"a"},
-    {make:"bmw", model:"a"},
-    {make:"open", model:"a"},
-    {make:"audi", model:"a"}
-];
+const database = require('../database/mongodb');
 
-function getCars(req,res){
+async function getCars(req,res){
     res.setHeader("Content-Type", "application/json");
-    res.end(JSON.stringify(cars));
+    res.end(JSON.stringify(await database.cars.find({}).toArray()));
 }
-function getCarById(req, res){
+async function getCarById(req, res){
     res.setHeader("Content-Type", "application/json");
-    res.end(JSON.stringify(cars.find(c => c.make == req.params.car)));
+    res.end(JSON.stringify(await database.cars.find({make:req.params.car}).toArray()));
 }
+
+async function addCar(req, res){
+    database.cars.insertOne(req.body); 
+    res.statusCode = 200;
+    res.end();
+}
+
 
 module.exports = {
+    addCar,
     getCars,
     getCarById
 }

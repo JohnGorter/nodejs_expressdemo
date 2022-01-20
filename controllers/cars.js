@@ -11,9 +11,10 @@ async function getCarById(req, res){
 }
 
 async function addCar(req, res){
-    database.cars.insertOne(req.body); 
+    let result = await database.cars.insertOne(req.body); 
+    console.log("result", result);
     res.statusCode = 200;
-    res.end();
+    res.end(JSON.stringify({id:result.insertedId}));
 }
 
 

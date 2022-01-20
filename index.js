@@ -1,16 +1,11 @@
 const express = require('express');
-const ws = require('ws');
 const http = require('http');
+const socketserver = require('./websockets/cars');
 
 const app = express(); 
 app.use(express.json());
 const server = http.createServer(app); 
-const socketserver = new ws.Server({server}); 
-
-/// your code here
-socketserver.on()
-
-/// your code here
+socketserver(server); 
 
 //mount routers
 app.use("/api/v1/cars", require('./routes/cars'));
